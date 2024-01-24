@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "634225843026",
+    "project_id": "capsule-gsc-app",
+    "storage_bucket": "capsule-gsc-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634225843026:android:17ad095235ad46a3f1788b",
+        "android_client_info": {
+          "package_name": "com.example.capsule_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByCPL6mO5-P_BXl6DgAb9qqQry6g3qDWM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
