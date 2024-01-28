@@ -1,3 +1,4 @@
+import 'package:capsule_app/widgets/drawer_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,24 @@ class _MainScreenState extends State<MainScreen> {
             onPressed: () async => await FirebaseAuth.instance.signOut(),
             icon: const Icon(Icons.logout))
       ]),
-    );
+      drawer: Drawer(
+        child: Container(
+          color: Colors.deepPurple[200],
+          child: ListView(
+            children: const [
+              DrawerHeader(
+                  child: Center(
+                child: Text("C A P S U L E", style: TextStyle(fontSize: 35)),
+                
+              )),
+              DrawerWidget(title: "Home Screen",),
+              DrawerWidget(title: "Calendar",),
+              DrawerWidget(title: "Profile",),
+              DrawerWidget(title: "Theme",),
+              
+            ],
+          ),
+        ),
+    ));
   }
 }
