@@ -1,6 +1,10 @@
 import 'package:capsule_app/firebase_options.dart';
+import 'package:capsule_app/screens/about_screen.dart';
 import 'package:capsule_app/screens/auth_screen.dart';
+import 'package:capsule_app/screens/chat_screen.dart';
+import 'package:capsule_app/screens/contact_us_screen.dart';
 import 'package:capsule_app/screens/main_screen.dart';
+import 'package:capsule_app/screens/medications.dart';
 import 'package:capsule_app/widgets/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       title: 'Capsule App',
       theme: ThemeData(
 
@@ -39,7 +44,15 @@ class MyApp extends StatelessWidget {
         else{
           return const AuthScreen();
         }
-      }),
+      })
+      ,
+      routes: {
+        "/chat": (ctx) => const ChatScreen(),
+        "/medications": (ctx) => const Medications(),
+        "/chat-screen": (ctx) => const ChatScreen(),
+        "about-us": (ctx) => const AboutScreen(),
+        "contact-us": (ctx) => const ContactScreen(),
+      }
     );
   }
 }
