@@ -50,8 +50,8 @@ class MyApp extends StatelessWidget {
         "/chat": (ctx) => const ChatScreen(),
         "/medications": (ctx) => const Medications(),
         "/chat-screen": (ctx) => const ChatScreen(),
-        "about-us": (ctx) => const AboutScreen(),
-        "contact-us": (ctx) => const ContactScreen(),
+        "/about-us": (ctx) => const AboutScreen(),
+        "/contact-us": (ctx) => const ContactScreen(),
       }
     );
   }
