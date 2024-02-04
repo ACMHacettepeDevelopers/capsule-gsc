@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -19,8 +20,8 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
   final FirebaseChatService firebaseChatService = FirebaseChatService();
   final ChatBotService chatBotService = ChatBotService();
-  List<types.Message> _messages = [];
-  final TextEditingController _textEditingController = TextEditingController();
+  var uuid = const Uuid();
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +43,11 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("No data"),
+                  const Text("You can start a new chat with the chat bot."),
                   ElevatedButton(
                     onPressed: () async {
                       await firebaseChatService.startNewChat(currentUserUid);
-                      await ChatBotService.initializeChatBot();
+                      await chatBotService.initializeChatBot();
                     },
                     child: const Text("Create Chat"),
                   ),
@@ -79,7 +80,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             onSendPressed: _handleSendPressed,
             inputOptions: InputOptions(
                 autocorrect: false,
-                textEditingController: _textEditingController),
+                inputClearMode: InputClearMode.always),
           );
         },
       ),
@@ -91,19 +92,13 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       author: types.User(
           id: currentUserUid), // user image eklenince buraya da eklenecek.
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: randomString(),
+      id: uuid.v8(),
       text: message.text,
     );
     await firebaseChatService.addMessageToChat(
         currentUserUid, json.encode(textMessage));
     await chatBotService.sendPrompt(message.text);
-
-    _textEditingController.clear();
   }
 
-  String randomString() {
-    final random = Random.secure();
-    final values = List<int>.generate(16, (i) => random.nextInt(255));
-    return base64UrlEncode(values);
-  }
+
 }

@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 
 class ChatResponse {
   final String? id;
-  final String object;
+  final String? object;
   final int? created;
   final String? model;
   final List<Choice>? choices;
@@ -28,11 +28,11 @@ class ChatResponse {
       object: parsedBody['object'],
       created: parsedBody['created'],
       model: parsedBody['model'],
-      choices: List<Choice>.from(parsedBody['choices'].map((choice) => Choice.fromJson(choice))),
+      choices: parsedBody['choices'] != null
+          ? List<Choice>.from(
+              parsedBody['choices'].map((choice) => Choice.fromJson(choice)))
+          : [],
       usage: Usage.fromJson(parsedBody['usage']),
     );
   }
 }
-
-
-

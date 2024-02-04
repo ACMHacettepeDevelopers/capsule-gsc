@@ -8,9 +8,13 @@ import "package:capsule_app/API_KEY.dart";
 import "package:capsule_app/models/chat_request.dart";
 import 'package:capsule_app/models/chatbot_message.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class ChatBotService {
+  var uuid = const Uuid();
   final FirebaseChatService firebaseChatService = FirebaseChatService();
+
   static final Uri chatUri =
       Uri.parse('https://api.openai.com/v1/chat/completions');
   static final Map<String, String> headers = {
@@ -18,19 +22,26 @@ class ChatBotService {
     'Authorization': 'Bearer ${ApiKey.openAIApiKey}',
   };
   Future<void> sendPrompt(String userInput) async {
-    ChatRequest request = ChatRequest(
-        model: "gpt-3.5-turbo-1106", messages: [ChatBotMessage(role: "user",content: userInput)]);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final conversation = (jsonDecode(prefs.getString("conversation")!)
+            as List<dynamic>)
+        .map((item) => ChatBotMessage.fromJson(item as Map<String, dynamic>))
+        .toList();
+    conversation.add(ChatBotMessage(role: "user", content: userInput));
+    ChatRequest request =
+        ChatRequest(model: "gpt-3.5-turbo-1106", messages: conversation);
     http.Response response = await http.post(
       chatUri,
       headers: headers,
       body: request.toJson(),
     );
+    print(response.body);
 
     ChatResponse chatResponse = ChatResponse.fromResponse(response);
     final textMessage = types.TextMessage(
       author: const types.User(id: "ChatBot"),
       createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: "randomString()",
+      id: uuid.v8(),
       text: chatResponse.choices?[0].message?.content ??
           "I can only answer questions about your medication.",
     );
@@ -39,7 +50,12 @@ class ChatBotService {
     print(chatResponse.choices?[0].message?.content);
   }
 
-  static Future<void> initializeChatBot() async {
+  Future<void> initializeConversation(List<ChatBotMessage> conversation) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("conversation", jsonEncode(conversation));
+  }
+
+  Future<void> initializeChatBot() async {
     final drugInfo = await getDrugInfo();
     final conversation = [
       ChatBotMessage(
@@ -50,6 +66,7 @@ class ChatBotService {
     ];
     ChatRequest request =
         ChatRequest(model: "gpt-3.5-turbo-1106", messages: conversation);
+    await initializeConversation(conversation);
     await http.post(
       chatUri,
       headers: headers,
