@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:capsule_app/services/chatbot_service.dart';
 import 'package:capsule_app/services/firebase_chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,16 +6,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
-class ChatScreen extends ConsumerStatefulWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends ConsumerState<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> {
   final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
   final FirebaseChatService firebaseChatService = FirebaseChatService();
   final ChatBotService chatBotService = ChatBotService();
@@ -78,7 +76,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             ),
             messages: _messages,
             onSendPressed: _handleSendPressed,
-            inputOptions: InputOptions(
+            inputOptions: const InputOptions(
                 autocorrect: false,
                 inputClearMode: InputClearMode.always),
           );

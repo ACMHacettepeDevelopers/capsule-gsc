@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:capsule_app/models/chat_response.dart';
 import 'package:capsule_app/services/firebase_chat_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import "package:capsule_app/API_KEY.dart";
 import "package:capsule_app/models/chat_request.dart";
