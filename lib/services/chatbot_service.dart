@@ -77,7 +77,7 @@ class ChatBotService {
       {String drugId = "f6f3c339-2c9d-4d07-14a1-6d6c7daf26c6"}) async {
     try {
       var url = Uri.parse(
-          "https://api.fda.gov/drug/label.json?search=set_id:$drugId&limit=1");
+          "https://api.fda.gov/drug/label.json?search=set_id:$drugId&limit=1");  //buraya kullanıcının kayıt ettiği ilaçların idleri gönderilebilir.
       var response = await http.get(url);
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
