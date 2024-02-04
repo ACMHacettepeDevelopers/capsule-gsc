@@ -38,6 +38,8 @@ dependencies:
   json_annotation: ^4.8.1
   riverpod_generator: ^2.3.9
   flutter_chat_ui: ^1.6.10
+  shared_preferences: ^2.2.2
+  uuid: ^4.3.3
 dev_dependencies:
   json_serializable: ^6.7.1
   build_runner: ^2.1.5

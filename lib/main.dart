@@ -5,6 +5,7 @@ import 'package:capsule_app/screens/chat_screen.dart';
 import 'package:capsule_app/screens/contact_us_screen.dart';
 import 'package:capsule_app/screens/main_screen.dart';
 import 'package:capsule_app/screens/medications.dart';
+import 'package:capsule_app/services/chatbot_service.dart';
 import 'package:capsule_app/widgets/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
