@@ -1,4 +1,9 @@
 class Validator{
+  final nameRegexp = RegExp(r'^[A-Za-z ]+$');
+  final phoneRegexp = RegExp(r'^[0-9]+$');
+  final emailRegexp = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+  final doseRegexp = RegExp(r'^[0-9]+$');
+
    static String? passwordValidator(value) {
     if (value == null || value.isEmpty) {
       return 'Please enter a password';
@@ -24,6 +29,24 @@ class Validator{
     } else {
       return null;
     }
+  }
+  String? medicationNameValidator(value) {
+    if (value.isEmpty) {
+      return 'Name can not be empty.';
+    }
+    if (!nameRegexp.hasMatch(value)) {
+      return 'Please enter a valid name.';
+    }
+    return null;
+  }
+  String? medicationDoseValidator(value) {
+    if (value.isEmpty) {
+      return 'Dose can not be empty.';
+    }
+    if (!doseRegexp.hasMatch(value)) {
+      return 'Please enter a valid dose.';
+    }
+    return null;
   }
 
 }

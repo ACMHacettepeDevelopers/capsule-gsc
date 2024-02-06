@@ -76,6 +76,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             messages: _messages,
             onSendPressed: _handleSendPressed,
+            
             inputOptions: const InputOptions(
                 autocorrect: false,
                 inputClearMode: InputClearMode.always),

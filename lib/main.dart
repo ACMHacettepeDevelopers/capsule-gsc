@@ -1,9 +1,11 @@
 import 'package:capsule_app/firebase_options.dart';
 import 'package:capsule_app/screens/about_screen.dart';
+import 'package:capsule_app/screens/add_medication.dart';
 import 'package:capsule_app/screens/auth_screen.dart';
 import 'package:capsule_app/screens/chat_screen.dart';
 import 'package:capsule_app/screens/contact_us_screen.dart';
 import 'package:capsule_app/screens/main_screen.dart';
+import 'package:capsule_app/screens/medication_details.dart';
 import 'package:capsule_app/screens/medications.dart';
 import 'package:capsule_app/widgets/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -53,8 +55,10 @@ class MyApp extends StatelessWidget {
         "/chat-screen": (ctx) => const ChatScreen(),
         "/about-us": (ctx) => const AboutScreen(),
         "/contact-us": (ctx) => const ContactScreen(),
+        "/add-medication": (ctx) => const AddMedication(),
+        "/medication-details": (ctx) =>  const MedicationDetails(medication: null),
       }
     );
-  }
+  } 
 }
 

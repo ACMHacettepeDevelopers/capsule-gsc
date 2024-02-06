@@ -27,8 +27,11 @@ class ChatBotService {
         .map((item) => ChatBotMessage.fromJson(item as Map<String, dynamic>))
         .toList();
     conversation.add(ChatBotMessage(role: "user", content: userInput));
+    for(var text in conversation){
+      print(text.content);
+    }
     ChatRequest request =
-        ChatRequest(model: "gpt-3.5-turbo-1106", messages: conversation);
+        ChatRequest(model: "gpt-3.5-turbo-1106", messages: conversation, temperature: 0.2 );
     http.Response response = await http.post(
       chatUri,
       headers: headers,
@@ -60,7 +63,7 @@ class ChatBotService {
       ChatBotMessage(
           role: "system",
           content:
-              "You are a pharmacist. You are helping a patient understand their medication. Do not mention how the information is obtained. Do not answer questions that are not related to the medication. Answer unrelated questions with 'I can only answer questions about your medication.'. Do not use any other sources of information."),
+              "You are a pharmacist. You are helping a patient understand their medication. Do not mention how the information is obtained. Do not use any other sources of information."),
       ChatBotMessage(role: "system", content: "Drug Info $drugInfo")
     ];
     ChatRequest request =
@@ -83,22 +86,24 @@ class ChatBotService {
         var data = json.decode(response.body);
         var filteredData = {
           for (var entry in data["results"][0].entries)
-            if (![
-              "adverse_reactions_table",
-              "description_table",
-              "indications_and_usage_table",
-              "dosage_and_administration_table",
-              "drug_interactions_table",
-              "clinical_pharmacology_table",
-              "clinical_studies_table",
-              "contraindications_table",
-              "how_supplied_table",
-              "information_for_patients_table",
-              "set_id",
-              "id",
-              "openfda",
-              "effective_time",
-              "version",
+            if ([
+              "brand_name",
+                "generic_name",
+                "active_ingredient",
+                "boxed_warning",
+                "indications_and_usage",
+                "dosage_and_administration",
+                "contraindications",
+                "adverse_reactions",
+                "drug_interactions",
+                "warnings_and_cautions",
+                "adverse_reactions",
+                "description",
+                "pediatric_use",
+                "geriatric_use",
+                "pregnancy",
+                "lactation",
+                "information_for_patients",
             ].contains(entry.key))
               entry.key: entry.value,
         };
