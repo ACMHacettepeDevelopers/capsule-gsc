@@ -68,6 +68,8 @@ flutter:
   assets:
     - lib/assets/pill.jpeg
     - lib/assets/needle.jpeg
+    - lib/assets/theraphy.jpeg
+    - lib/assets/exercise.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -6,16 +6,17 @@ enum MedicationStatus {
 enum MedicationType {
   pill,
   needle,
-  theraphy,
-  exercise,
+  // theraphy,
+  // exercise,
 }
 
 class Medication {
-  Medication({required this.medicationType,required this.status,required this.dose, required this.time, required this.id, required this.name});
+  Medication({required this.medicationType,required this.status,required this.dose, required this.dayAdded, required this.usageDays, required this.id, required this.name});
   final String id;
   final String name;
   final String dose;
-  final String time;
+  final DateTime dayAdded;
+  final int usageDays;
   MedicationStatus? status;
   MedicationType? medicationType;
   factory Medication.fromJson(Map<String, dynamic> json) {
@@ -23,7 +24,8 @@ class Medication {
       id: json['id'],
       name: json['name'],
       dose: json['dose'],
-      time: json['time'],
+      dayAdded: DateTime.parse(json['dayAdded']),
+      usageDays: int.parse(json['usageDays']),
       status: MedicationStatus.values[json['status']],
       medicationType: MedicationType.values[json['medicationType']],
     );
@@ -33,7 +35,8 @@ class Medication {
       'id': id,
       'name': name,
       'dose': dose,
-      'time': time,
+      'usageDays': usageDays.toString(),
+      'dayAdded': dayAdded.toIso8601String(),
       'status': status?.index,
       'medicationType': medicationType?.index,
     };

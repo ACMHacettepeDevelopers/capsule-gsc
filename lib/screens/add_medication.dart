@@ -17,6 +17,7 @@ class _AddMedicationState extends State<AddMedication> {
   var _medicationName = "";
   var _dose = "";
   var _type = MedicationType.pill;
+  var _time = "";
   @override
   Widget build(BuildContext context) {
     // text form to add medication
@@ -42,6 +43,11 @@ class _AddMedicationState extends State<AddMedication> {
                 validator: validator.medicationDoseValidator,
                 onSaved: (newValue) => _dose = newValue!,
               ),
+              TextFormField(
+                decoration: const InputDecoration(labelText: "Usage Time (Days)"),
+                validator: validator.medicationDoseValidator,
+                onSaved: (newValue) => _time = newValue!,
+              ),
           
               DropdownButton<MedicationType>(
                 value: _type,
@@ -57,7 +63,7 @@ class _AddMedicationState extends State<AddMedication> {
                         ))
                     .toList(),
               ),
-               SizedBox(height: 200),
+              const SizedBox(height: 200),
               ElevatedButton(
                 onPressed: () async {
                   if (!formKey.currentState!.validate()) {
@@ -69,11 +75,16 @@ class _AddMedicationState extends State<AddMedication> {
                     id: DateTime.now().toString(),
                     name: _medicationName,
                     dose: _dose,
+                    usageDays: int.parse(_time),
                     status: MedicationStatus.notTaken,
                     medicationType: _type,
-                    time: DateTime.now().toString(),
+                    dayAdded: DateTime.now(),
                   ));
-                  Navigator.of(context).pop();
+
+                  if(context.mounted){
+                    
+                    Navigator.of(context).pop();
+                  }
                 },
                 child: const Text("Add Medication"),
               ),

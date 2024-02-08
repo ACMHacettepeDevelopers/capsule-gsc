@@ -3,11 +3,18 @@ import "package:capsule_app/services/medications_local_service.dart";
 import "package:flutter/material.dart";
 import "package:capsule_app/models/medication.dart";
 
-class Medications extends StatelessWidget {
+class Medications extends StatefulWidget {
   const Medications({Key? key}) : super(key: key);
+
+  @override
+  _MedicationsState createState() => _MedicationsState();
+}
+
+class _MedicationsState extends State<Medications> {
+  final MedicationsService medicationsService = MedicationsService();
+
   @override
   Widget build(BuildContext context) {
-    final MedicationsService medicationsService = MedicationsService();
     return Scaffold(
       appBar: AppBar(
         title: const Text("Medications"),
@@ -20,9 +27,8 @@ class Medications extends StatelessWidget {
           ),
         ],
       ),
-
-      body: StreamBuilder(
-          stream: medicationsService.getMedications(),
+      body: FutureBuilder(
+          future: medicationsService.getMedicationsFromLocal(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -56,50 +62,77 @@ class Medications extends StatelessWidget {
                 // card with background image based on medication type
                 return GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MedicationDetails(medication: medication)));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            MedicationDetails(medication: medication)));
                   },
-                  onLongPress: (){
-                    medicationsService.deleteMedication(medication);
+                  onLongPress: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Delete Medication'),
+                          content: const Text(
+                              'Are you sure you want to delete this medication?'),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: const Text('Delete'),
+                              onPressed: () {
+                                medicationsService.deleteMedication(medication);
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                   child: Card(
-                        elevation: 3,
-                        shape: RoundedRectangleBorder(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Stack(
+                      children: [
+                        ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
+                          child:
+                              medication.medicationType == MedicationType.pill
+                                  ? Image.asset(
+                                      "lib/assets/pill.jpeg",
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 150.0,
+                                    )
+                                  : Image.asset(
+                                      "lib/assets/needle.jpeg",
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 150.0,
+                                    ),
                         ),
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: medication.medicationType == MedicationType.pill ? Image.asset(
-                                "lib/assets/pill.jpeg",
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: 150.0,
-                              ): Image.asset("lib/assets/needle.jpeg",
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: 150.0,
-                              ),  
+                        Positioned(
+                          bottom: 8.0,
+                          left: 8.0,
+                          child: Text(
+                            medication.name,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Positioned(
-                              bottom: 8.0,
-                              left: 8.0,
-                              child: Text(
-                                medication.name,
-                                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
+                    ),
+                  ),
                 );
-
-                
               },
             );
           }),
