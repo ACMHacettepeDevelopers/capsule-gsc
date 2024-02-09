@@ -46,6 +46,18 @@ class Validator{
     if (!doseRegexp.hasMatch(value)) {
       return 'Please enter a valid dose.';
     }
+    if (int.parse(value) > 6) {
+    return 'Dose can not be greater than 6.';
+  }
+    return null;
+  }
+  String? medicationUsageValidator(value) {
+    if (value.isEmpty) {
+      return 'Usage can not be empty.';
+    }
+    if (!doseRegexp.hasMatch(value)) {
+      return 'Please enter a valid dose.';
+    }
     return null;
   }
 

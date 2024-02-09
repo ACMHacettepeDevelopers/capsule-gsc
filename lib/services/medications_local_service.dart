@@ -32,6 +32,7 @@ class MedicationsService {
     // Delete the medication from the local dat abase
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> medications = prefs.getStringList("medications") ?? [];
+    print(medications);
     medications.remove(jsonEncode(medication));
     await prefs.setStringList("medications", medications);
   }

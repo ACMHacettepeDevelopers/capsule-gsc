@@ -59,12 +59,10 @@ class _MedicationsState extends State<Medications> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 final Medication medication = snapshot.data![index];
-                // card with background image based on medication type
+
                 return GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            MedicationDetails(medication: medication)));
+                   Navigator.of(context).push(MaterialPageRoute(builder: (context) => MedicationDetails(medication: medication)));
                   },
                   onLongPress: () {
                     showDialog(
@@ -76,16 +74,20 @@ class _MedicationsState extends State<Medications> {
                               'Are you sure you want to delete this medication?'),
                           actions: <Widget>[
                             TextButton(
-                              child: const Text('Cancel'),
+                              child: const Text('Cancel', style: TextStyle(color: Colors.black)),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                             ),
                             TextButton(
-                              child: const Text('Delete'),
-                              onPressed: () {
-                                medicationsService.deleteMedication(medication);
-                                Navigator.of(context).pop();
+                              child: const Text('Delete', style: TextStyle(color: Colors.red)),
+                              onPressed: () async {
+                                await medicationsService.deleteMedication(medication);
+                                if (mounted) {
+                                  setState(() {
+                                  });
+                                  Navigator.of(context).pop();
+                                }
                               },
                             ),
                           ],

@@ -13,6 +13,8 @@ class MedicationDetails extends StatefulWidget {
 class _MedicationDetailsState extends State<MedicationDetails> {
   @override
   Widget build(BuildContext context) {
+    print("asdasdsadsadsadsadsadsadasdsadasdasdasdsa");
+    print(widget.medication!.name);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Medication Details"),
@@ -22,6 +24,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
         children: [
           Text(widget.medication!.name),
           Text(widget.medication!.dose),
+          Text(widget.medication!.times),
           ElevatedButton(onPressed: (){}, child: Text("Go to details")),
         ],
       ),

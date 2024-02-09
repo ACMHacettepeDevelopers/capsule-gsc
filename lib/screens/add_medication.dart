@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:capsule_app/models/medication.dart';
 import 'package:capsule_app/services/medications_local_service.dart';
 import 'package:capsule_app/utils/validators.dart';
@@ -11,16 +13,68 @@ class AddMedication extends StatefulWidget {
 }
 
 class _AddMedicationState extends State<AddMedication> {
+  List<TimeOfDay> _times = [];
   final MedicationsService medicationsService = MedicationsService();
   final formKey = GlobalKey<FormState>();
   final validator = Validator();
+  bool isTimePickerOn = false;
   var _medicationName = "";
   var _dose = "";
   var _type = MedicationType.pill;
   var _time = "";
+
+  List<Widget> _buildTimePickers(BuildContext context, int _dose) {
+    List<Widget> timePickers = [];
+
+    for (int i = 0; i < _dose; i++) {
+      String buttonText = _times.length > i
+          ? 'Selected time ${i + 1}: ${_times[i].format(context)}'
+          : 'Select time ${i + 1}';
+
+      timePickers.add(
+        ElevatedButton(
+          onPressed: () async {
+            TimeOfDay? pickedTime = await showTimePicker(
+              context: context,
+              initialTime: _times.length > i ? _times[i] : TimeOfDay.now(),
+            );
+            if (pickedTime != null) {
+              if (_times.any((time) => time == pickedTime)) {
+                if (context.mounted) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Duplicate Time'),
+                        content: const Text('Selected time is already chosen.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              } else {
+                setState(() {
+                  _times.add(pickedTime);
+                });
+              }
+            }
+          },
+          child: Text(buttonText),
+        ),
+      );
+    }
+    return timePickers;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // text form to add medication
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Medication"),
@@ -29,66 +83,86 @@ class _AddMedicationState extends State<AddMedication> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                
-                decoration: const InputDecoration(labelText: "Medication Name"),
-                validator: validator.medicationNameValidator,
-                onSaved: (newValue) => _medicationName = newValue!,
-              ),
-              TextFormField(
-                decoration:
-                    const InputDecoration(labelText: "Dose (Daily amount)"),
-                validator: validator.medicationDoseValidator,
-                onSaved: (newValue) => _dose = newValue!,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(labelText: "Usage Time (Days)"),
-                validator: validator.medicationDoseValidator,
-                onSaved: (newValue) => _time = newValue!,
-              ),
-          
-              DropdownButton<MedicationType>(
-                value: _type,
-                onChanged: (newType) {
-                  setState(() {
-                    _type = newType!;
-                  });
-                },
-                items: MedicationType.values
-                    .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type.toString().split('.').last),
-                        ))
-                    .toList(),
-              ),
-              const SizedBox(height: 200),
-              ElevatedButton(
-                onPressed: () async {
-                  if (!formKey.currentState!.validate()) {
-                    return;
-                  }
-                  formKey.currentState!.save();
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration:
+                      const InputDecoration(labelText: "Medication Name"),
+                  validator: validator.medicationNameValidator,
+                  onSaved: (newValue) => _medicationName = newValue!,
+                ),
+                TextFormField(
+                  decoration:
+                      const InputDecoration(labelText: "Dose (Daily amount)"),
+                  validator: validator.medicationDoseValidator,
+                  keyboardType: TextInputType.number,
+                  onSaved: (newValue) {
+                    setState(() {
+                      _dose = newValue!;
+                      isTimePickerOn = true;
+                    });
+                  },
+                ),
+                TextFormField(
+                  decoration:
+                      const InputDecoration(labelText: "Usage Time (Days)"),
+                  validator: validator.medicationUsageValidator,
+                  onSaved: (newValue) => _time = newValue!,
+                ),
+                DropdownButton<MedicationType>(
+                  value: _type,
+                  onChanged: (newType) {
+                    setState(() {
+                      _type = newType!;
+                    });
+                  },
+                  items: MedicationType.values
+                      .map((type) => DropdownMenuItem(
+                            value: type,
+                            child: Text(type.toString().split('.').last),
+                          ))
+                      .toList(),
+                ),
+                const SizedBox(height: 200),
+                if (isTimePickerOn)
+                  ..._buildTimePickers(context, int.parse(_dose)),
+                !isTimePickerOn
+                    ? ElevatedButton(
+                        onPressed: () {
+                          if (!formKey.currentState!.validate()) {
+                            return;
+                          }
+                          formKey.currentState!.save();
+                          setState(() {
+                            isTimePickerOn = true;
+                          });
+                        },
+                        child: const Text("Save and pick time"),
+                      )
+                    : ElevatedButton(
+                        onPressed: () async {
 
-                  await medicationsService.addMedication(Medication(
-                    id: DateTime.now().toString(),
-                    name: _medicationName,
-                    dose: _dose,
-                    usageDays: int.parse(_time),
-                    status: MedicationStatus.notTaken,
-                    medicationType: _type,
-                    dayAdded: DateTime.now(),
-                  ));
+                          await medicationsService.addMedication(
+                            Medication(
+                            id: DateTime.now().toString(),
+                            name: _medicationName,
+                            dose: _dose,
+                            status: "notTaken",
+                            usageDays: int.parse(_time),
+                            medicationType: _type,
+                            dayAdded: DateTime.now(),
+                            times: jsonEncode(_times.map((time) => time.format(context)).toList()),
+                          ));
 
-                  if(context.mounted){
-                    
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: const Text("Add Medication"),
-              ),
-            ],
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
+                        },
+                        child: const Text("Add Medication"),
+                      ),
+              ],
+            ),
           ),
         ),
       ),
