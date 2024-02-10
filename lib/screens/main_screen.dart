@@ -1,3 +1,6 @@
+import 'package:capsule_app/models/medication.dart';
+import 'package:capsule_app/services/medications_local_service.dart';
+import 'package:capsule_app/widgets/main_screen_med_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -63,6 +66,25 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
+     body: FutureBuilder<List<Medication>>(
+  future: MedicationsService().getMedicationsFromLocal(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (snapshot.hasError) {
+      return Center(child: Text("Error: ${snapshot.error}"));
+    }
+    final medications = snapshot.data ?? [];
+    return ListView.builder(
+      itemCount: medications.length,
+      itemBuilder: (context, index) {
+        return MedicationCard(medication: medications[index]);
+      },
+    );
+  },
+),
+
     );
   }
 }

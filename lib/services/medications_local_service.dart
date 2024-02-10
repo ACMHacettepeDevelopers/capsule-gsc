@@ -36,4 +36,13 @@ class MedicationsService {
     medications.remove(jsonEncode(medication));
     await prefs.setStringList("medications", medications);
   }
+//   Future<List<Medication>> getMedicationsWithRemainingDays() async {
+//   final List<Medication> medications = await getMedicationsFromLocal();
+//   final DateTime now = DateTime.now();
+//   for (var medication in medications) {
+//     final DateTime endDay = medication.dayAdded.add(Duration(days: medication.usageDays));
+//     final int remainingDays = endDay.difference(now).inDays;
+//   }
+//   return medications;
+// }
 }

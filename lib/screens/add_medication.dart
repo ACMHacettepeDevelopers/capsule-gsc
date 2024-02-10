@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:capsule_app/models/medication.dart';
 import 'package:capsule_app/services/medications_local_service.dart';
 import 'package:capsule_app/utils/validators.dart';
@@ -23,12 +22,14 @@ class _AddMedicationState extends State<AddMedication> {
   var _type = MedicationType.pill;
   var _time = "";
 
+  Map<String, bool> _selectedTimes = {};
+
   List<Widget> _buildTimePickers(BuildContext context, int _dose) {
     List<Widget> timePickers = [];
 
     for (int i = 0; i < _dose; i++) {
-      String buttonText = _times.length > i
-          ? 'Selected time ${i + 1}: ${_times[i].format(context)}'
+      String buttonText = i < _times.length
+          ? _times[i].format(context)
           : 'Select time ${i + 1}';
 
       timePickers.add(
@@ -39,7 +40,8 @@ class _AddMedicationState extends State<AddMedication> {
               initialTime: _times.length > i ? _times[i] : TimeOfDay.now(),
             );
             if (pickedTime != null) {
-              if (_times.any((time) => time == pickedTime)) {
+              String formattedTime = pickedTime.format(context);
+              if (_selectedTimes.containsKey(formattedTime)) {
                 if (context.mounted) {
                   showDialog(
                     context: context,
@@ -62,6 +64,8 @@ class _AddMedicationState extends State<AddMedication> {
               } else {
                 setState(() {
                   _times.add(pickedTime);
+                  _selectedTimes[formattedTime] =
+                      false; // Default status is false (not taken)
                 });
               }
             }
@@ -142,18 +146,18 @@ class _AddMedicationState extends State<AddMedication> {
                       )
                     : ElevatedButton(
                         onPressed: () async {
-
                           await medicationsService.addMedication(
                             Medication(
-                            id: DateTime.now().toString(),
-                            name: _medicationName,
-                            dose: _dose,
-                            status: "notTaken",
-                            usageDays: int.parse(_time),
-                            medicationType: _type,
-                            dayAdded: DateTime.now(),
-                            times: jsonEncode(_times.map((time) => time.format(context)).toList()),
-                          ));
+                              id: DateTime.now().toString(),
+                              name: _medicationName,
+                              dose: _dose,
+                              status: "notTaken",
+                              usageDays: int.parse(_time),
+                              medicationType: _type,
+                              dayAdded: DateTime.now(),
+                              times: jsonEncode(_selectedTimes),
+                            ),
+                          );
 
                           if (context.mounted) {
                             Navigator.of(context).pop();
