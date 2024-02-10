@@ -39,7 +39,7 @@ class _MedicationCardState extends State<MedicationCard> {
             const SizedBox(height: 8),
             Text('Days Left: ${widget.medication.remainingDays}'),
             const SizedBox(height: 8),
-            Text('Times to Take: ${selectedTimes.keys.join(', ')}'),
+            const Text('Scheduled Times', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Column(
               children: _buildTimeCheckboxes(context),
