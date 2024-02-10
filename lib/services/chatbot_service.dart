@@ -37,7 +37,6 @@ class ChatBotService {
       headers: headers,
       body: request.toJson(),
     );
-    print(response.body);
 
     ChatResponse chatResponse = ChatResponse.fromResponse(response);
     final textMessage = types.TextMessage(

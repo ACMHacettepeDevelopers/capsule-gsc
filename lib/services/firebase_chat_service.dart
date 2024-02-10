@@ -25,6 +25,8 @@ class FirebaseChatService {
     }
     return;
   }
+   Future<void> deleteChat(String userId) async {
+    await _firestore.collection('chats').doc(userId).delete();}
 
   //add message to chat
   Future<void> addMessageToChat(String userId, String message) async {

@@ -20,13 +20,45 @@ class _ChatScreenState extends State<ChatScreen> {
   final ChatBotService chatBotService = ChatBotService();
   var uuid = const Uuid();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Chat"),
-      ),
+      appBar: AppBar(title: const Text("Chat"), actions: [
+        ElevatedButton(
+          onPressed: () async {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Delete Chat'),
+                  content:
+                      const Text('Are you sure you want to delete this chat?'),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('Cancel',
+                          style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('Delete',
+                          style: TextStyle(color: Colors.red)),
+                      onPressed: () async {
+                        await firebaseChatService.deleteChat(currentUserUid);
+                        if (mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          child: const Icon(Icons.delete),
+        )
+      ]),
       body: StreamBuilder<DocumentSnapshot>(
         stream: firebaseChatService.getChatMessages(currentUserUid),
         builder: (context, snapshot) {
@@ -57,7 +89,8 @@ class _ChatScreenState extends State<ChatScreen> {
           List<types.Message> _messages = [];
 
           if (snapshot.hasData && snapshot.data != null) {
-            Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
             if (data.containsKey('messages')) {
               List<String> messages = List<String>.from(data['messages']);
 
@@ -76,10 +109,8 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             messages: _messages,
             onSendPressed: _handleSendPressed,
-            
             inputOptions: const InputOptions(
-                autocorrect: false,
-                inputClearMode: InputClearMode.always),
+                autocorrect: false, inputClearMode: InputClearMode.always),
           );
         },
       ),
@@ -98,6 +129,4 @@ class _ChatScreenState extends State<ChatScreen> {
         currentUserUid, json.encode(textMessage));
     await chatBotService.sendPrompt(message.text);
   }
-
-
 }
