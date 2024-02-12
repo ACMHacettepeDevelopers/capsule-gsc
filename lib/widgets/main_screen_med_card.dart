@@ -51,7 +51,7 @@ class _MedicationCardState extends State<MedicationCard> {
   }
 
   List<Widget> _buildTimeCheckboxes(BuildContext context) {
-    bool allSelected = true;
+    bool allSelected = widget.medication.status == MedicationStatus.taken.toString();
 
     final checkboxes = selectedTimes.entries.map((entry) {
       final String time = entry.key;

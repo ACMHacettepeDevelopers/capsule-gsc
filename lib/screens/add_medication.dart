@@ -3,6 +3,7 @@ import 'package:capsule_app/models/medication.dart';
 import 'package:capsule_app/services/medications_local_service.dart';
 import 'package:capsule_app/utils/validators.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class AddMedication extends StatefulWidget {
   const AddMedication({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class _AddMedicationState extends State<AddMedication> {
   var _dose = "";
   var _type = MedicationType.pill;
   var _time = "";
+  Uuid uuid = const Uuid();
 
   Map<String, bool> _selectedTimes = {};
 
@@ -65,7 +67,7 @@ class _AddMedicationState extends State<AddMedication> {
                 setState(() {
                   _times.add(pickedTime);
                   _selectedTimes[formattedTime] =
-                      false; // Default status is false (not taken)
+                      false; 
                 });
               }
             }

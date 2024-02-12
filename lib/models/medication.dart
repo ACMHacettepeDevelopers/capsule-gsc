@@ -18,8 +18,8 @@ class Medication {
   Medication({required this.medicationType,required this.dose,required this.status,  required this.dayAdded, required this.usageDays, required this.id, required this.name, required this.times});
   final String id;
   final String name;
-  final String dose;
-  final String status;
+  String dose;
+  String status;
   final DateTime dayAdded;
   final String times;
   final int usageDays;
@@ -30,6 +30,7 @@ class Medication {
     final int remaining = endDay.difference(DateTime.now()).inDays;
     return remaining >= 0 ? remaining : 0;
   }
+  DateTime get endDay => dayAdded.add(Duration(days: usageDays));
   factory Medication.fromJson(Map<String, dynamic> json) {
     return Medication(
       id: json['id'],
