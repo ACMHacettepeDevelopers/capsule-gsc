@@ -7,6 +7,7 @@ enum MedicationStatus {
   notTaken,
   scheduled,
 }
+
 enum MedicationType {
   pill,
   needle,
@@ -15,7 +16,15 @@ enum MedicationType {
 }
 
 class Medication {
-  Medication({required this.medicationType,required this.dose,required this.status,  required this.dayAdded, required this.usageDays, required this.id, required this.name, required this.times});
+  Medication(
+      {required this.medicationType,
+      required this.dose,
+      required this.status,
+      required this.dayAdded,
+      required this.usageDays,
+      required this.id,
+      required this.name,
+      required this.times});
   final String id;
   final String name;
   final String dose;
@@ -25,11 +34,13 @@ class Medication {
   final int usageDays;
 
   MedicationType? medicationType;
-   int get remainingDays {
+  int get remainingDays {
     final DateTime endDay = dayAdded.add(Duration(days: usageDays));
     final int remaining = endDay.difference(DateTime.now()).inDays;
     return remaining >= 0 ? remaining : 0;
   }
+
+  DateTime get endDay => dayAdded.add(Duration(days: usageDays));
   factory Medication.fromJson(Map<String, dynamic> json) {
     return Medication(
       id: json['id'],

@@ -1,9 +1,9 @@
 import 'package:capsule_app/models/medication.dart';
+import 'package:capsule_app/screens/calendar.dart';
 import 'package:flutter/material.dart';
 
 class MedicationDetails extends StatefulWidget {
-  const MedicationDetails({Key? key,this.medication})
-      : super(key: key);
+  const MedicationDetails({Key? key, this.medication}) : super(key: key);
   final Medication? medication;
 
   @override
@@ -16,19 +16,24 @@ class _MedicationDetailsState extends State<MedicationDetails> {
     print("asdasdsadsadsadsadsadsadasdsadasdasdasdsa");
     print(widget.medication!.name);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Medication Details"),
-      ),
-      body: Center(
-      child: Column(
-        children: [
-          Text(widget.medication!.name),
-          Text(widget.medication!.dose),
-          Text(widget.medication!.times),
-          ElevatedButton(onPressed: (){}, child: Text("Go to details")),
-        ],
-      ),
-    )
-    );
+        appBar: AppBar(
+          title: const Text("Medication Details"),
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              Text(widget.medication!.name),
+              Text(widget.medication!.dose),
+              Text(widget.medication!.times),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            Table_Calender(medication: widget.medication!)));
+                  },
+                  child: Text("Go to calender")),
+            ],
+          ),
+        ));
   }
 }
