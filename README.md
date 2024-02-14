@@ -1,16 +1,64 @@
-# capsule_app
+<div align="center">
+  <img src="./lib/assets/logo.png" width=280px style="margin-bottom: 16px"/>
+  <p></p>
+  <p><i>Smart Medication Management for a Healthier Tomorrow</i></p>
+  <div align="center" style="display:flex; gap: 8px; justify-content: center; margin-bottom: 16px">
+  <img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white"/>
+  <img src="https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Firebase-039cE5?style=for-the-badge&logo=Firebase&logoColor=white/">
+  <img src="https://img.shields.io/badge/GoogleCloud-%234285F4.svg?style=for-the-badge&logo=google-cloud&logoColor=white"/>
+</div>
+</div>
 
-A new Flutter project.
+## About the Project
+
+Capsule is a medication reminder and tracker app! This application aims to assist users in managing their medications effectively. The app features a user-friendly interface, medication reminders, and an AI chatbot to help users understand their medications better.
+
+
+<p>Product demo:</p>
+<a href="https://www.youtube.com/">
+  <img src="https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white" alt="LinkedIn Badge"/>
+</a>
+
+## Features
+
+- **Medication Reminders:** Set up reminders to ensure timely medication intake.
+- **AI Chatbot:** Get assistance and information about your medications through the AI-powered chatbot.
+- **Medication Tracking:** Keep a record of your medication history and track your progress.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Follow these steps to get the app up and running on your local machine.
 
-A few resources to get you started if this is your first Flutter project:
+### Prerequisites
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter installed on your machine. [Flutter Installation Guide](https://flutter.dev/docs/get-started/install)
+- Android/ios emulator or a physical device
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
+
+- Clone the repository:
+
+  ```bash
+  git clone https://github.com/ACMHacettepeDevelopers/capsule-gsc
+  ```
+
+- Navigate to the project directory:
+ 
+  ```bash
+  cd capsule-gsc
+  ```
+
+- Install Dependencies:
+ 
+  ```bash
+  flutter pub get
+  ```
+
+### Usage
+
+- Run the app on an emulator or connected device:
+
+  ```bash
+  flutter run
+  ```
