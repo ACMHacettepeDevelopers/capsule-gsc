@@ -39,7 +39,9 @@ class _MedicationCardState extends State<MedicationCard> {
             const SizedBox(height: 8),
             Text('Days Left: ${widget.medication.remainingDays}'),
             const SizedBox(height: 8),
-            const Text('Scheduled Times', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            const Text('Scheduled Times',
+                style:
+                    TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Column(
               children: _buildTimeCheckboxes(context),
@@ -51,7 +53,8 @@ class _MedicationCardState extends State<MedicationCard> {
   }
 
   List<Widget> _buildTimeCheckboxes(BuildContext context) {
-    bool allSelected = widget.medication.status == MedicationStatus.taken.toString();
+    bool allSelected =
+        widget.medication.status == MedicationStatus.taken.toString();
 
     final checkboxes = selectedTimes.entries.map((entry) {
       final String time = entry.key;
@@ -72,6 +75,8 @@ class _MedicationCardState extends State<MedicationCard> {
                 selectedTimes[time] = value ?? false;
               });
               _updateMedicationStatus();
+              setState(() {
+              });
             },
           ),
         ],
@@ -83,8 +88,8 @@ class _MedicationCardState extends State<MedicationCard> {
       checkboxes.add(const Row(
         children: [
           Text('You have taken all your medication for today!'),
-           SizedBox(width: 8),
-           Icon(Icons.check),
+          SizedBox(width: 8),
+          Icon(Icons.check),
         ],
       ));
     }
@@ -101,17 +106,13 @@ class _MedicationCardState extends State<MedicationCard> {
       }
     }
 
-    final updatedMedication = Medication(
-      id: widget.medication.id,
-      name: widget.medication.name,
-      dose: widget.medication.dose,
-      status: allSelected ? MedicationStatus.taken.toString() : MedicationStatus.notTaken.toString(),
-      dayAdded: widget.medication.dayAdded,
-      usageDays: widget.medication.usageDays,
-      times: jsonEncode(selectedTimes),
-      medicationType: widget.medication.medicationType,
+    final updatedMedication = widget.medication.copyWith(
+      status: allSelected
+          ? MedicationStatus.taken.toString()
+          : MedicationStatus.notTaken.toString(),
     );
 
     MedicationsService().updateMedication(updatedMedication);
+    
   }
 }

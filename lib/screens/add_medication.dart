@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:capsule_app/models/medication.dart';
 import 'package:capsule_app/services/medications_local_service.dart';
 import 'package:capsule_app/utils/validators.dart';
@@ -150,6 +151,7 @@ class _AddMedicationState extends State<AddMedication> {
                         onPressed: () async {
                           await medicationsService.addMedication(
                             Medication(
+                              notificationId: Random().nextInt(1000),
                               id: DateTime.now().toString(),
                               name: _medicationName,
                               dose: _dose,

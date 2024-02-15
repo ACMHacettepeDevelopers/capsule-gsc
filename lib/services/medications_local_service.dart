@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:capsule_app/models/medication.dart';
+import 'package:capsule_app/models/notification.dart';
 import "package:shared_preferences/shared_preferences.dart";
 import "package:awesome_notifications/awesome_notifications.dart";
 import 'package:intl/intl.dart';
@@ -20,9 +22,9 @@ class MedicationsService {
 
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> medications = prefs.getStringList("medications") ?? [];
-    medications.add(jsonEncode(medication.toJson()));
+   
 
-    await prefs.setStringList("medications", medications);
+    
     times.forEach((timeString, value) {
       if (timeString.contains(RegExp(r'AM|PM', caseSensitive: false))) {
         format = DateFormat("h:mm a");
@@ -32,9 +34,10 @@ class MedicationsService {
       DateTime now = DateTime.now();
       if (Platform.isAndroid) {
         DateTime time = format.parse(timeString);
+        time = time.subtract(const Duration(minutes: 10));
         AwesomeNotifications().createNotification(
           content: NotificationContent(
-              id: 1,
+              id: medication.notificationId,
               channelKey: 'basic_channel',
               title: 'Hey buddy! Time to take your medication!',
               body: "${medication.name} needs to be taken now."),
@@ -45,10 +48,10 @@ class MedicationsService {
       if (Platform.isIOS) {
         for (int i = 0; i < medication.usageDays; i++) {
           DateTime time = DateTime(now.year, now.month, now.day + i,
-              format.parse(timeString).hour, format.parse(timeString).minute);
+              format.parse(timeString).hour, format.parse(timeString).minute - 10);
            AwesomeNotifications().createNotification(
             content: NotificationContent(
-              id: i + 1,
+              id: medication.notificationId,
               channelKey: 'basic_channel',
               title: 'Hey buddy! Time to take your medication!',
               body: "${medication.name} needs to be taken now.",
@@ -57,7 +60,14 @@ class MedicationsService {
           );
         }
       }
+      
+      final notification = Notification(id: medication.notificationId,);
+        final List<String> notifications = prefs.getStringList("notifications") ?? [];
+        notifications.add(jsonEncode(notification.toJson()));
+        prefs.setStringList("notifications", notifications);
     });
+    medications.add(jsonEncode(medication.toJson()));
+    await prefs.setStringList("medications", medications);
   }
 
   Future<void> updateMedication(Medication medication) async {
@@ -70,10 +80,16 @@ class MedicationsService {
   }
 
   Future<void> deleteMedication(Medication medication) async {
-    // Delete the medication from the local dat abase
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String> notifications = prefs.getStringList("notifications") ?? [];
+    List<Notification>  notificationList = notifications.map((e) => Notification.fromJson(jsonDecode(e))).toList();
     final List<String> medications = prefs.getStringList("medications") ?? [];
-    print(medications);
+      AwesomeNotifications().cancelSchedule(notificationList.firstWhere((element) => element.id == medication.notificationId!).id);
+      print("DELETED NOTIFICATION ${medication.times}");
+      
+      notificationList.removeWhere((element) => element.id == medication.notificationId!);
+      prefs.setStringList("notifications", notificationList.map((e) => jsonEncode(e)).toList());
+      
     medications.remove(jsonEncode(medication));
     await prefs.setStringList("medications", medications);
   }
@@ -84,7 +100,6 @@ class MedicationsService {
         prefs.getString("lastLogin") ?? DateTime.now().toIso8601String();
     final now = DateTime.now();
     final difference = now.difference(DateTime.parse(lastLogin)).inDays;
-    print(difference);
     if (difference > 0) {
       final List<Medication> medications = await getMedicationsFromLocal();
       for (var medication in medications) {
