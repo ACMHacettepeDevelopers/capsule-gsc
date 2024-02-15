@@ -7,6 +7,7 @@ enum MedicationStatus {
   notTaken,
   scheduled,
 }
+
 enum MedicationType {
   pill,
   needle,
@@ -27,7 +28,7 @@ class Medication {
   final int usageDays;
 
   MedicationType? medicationType;
-   int get remainingDays {
+  int get remainingDays {
     final DateTime endDay = dayAdded.add(Duration(days: usageDays));
     final int remaining = endDay.difference(DateTime.now()).inDays;
     return remaining >= 0 ? remaining : 0;
