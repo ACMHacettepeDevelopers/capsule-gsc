@@ -34,10 +34,9 @@ class MedicationsService {
       DateTime now = DateTime.now();
       if (Platform.isAndroid) {
         DateTime time = format.parse(timeString);
-        time = time.subtract(const Duration(minutes: 10));
         AwesomeNotifications().createNotification(
           content: NotificationContent(
-              id: medication.notificationId,
+              id: medication.notificationId,  // UNIQUE ID GEREKIR MI?
               channelKey: 'basic_channel',
               title: 'Hey buddy! Time to take your medication!',
               body: "${medication.name} needs to be taken now."),
@@ -48,7 +47,7 @@ class MedicationsService {
       if (Platform.isIOS) {
         for (int i = 0; i < medication.usageDays; i++) {
           DateTime time = DateTime(now.year, now.month, now.day + i,
-              format.parse(timeString).hour, format.parse(timeString).minute - 10);
+              format.parse(timeString).hour, format.parse(timeString).minute);
            AwesomeNotifications().createNotification(
             content: NotificationContent(
               id: medication.notificationId,
