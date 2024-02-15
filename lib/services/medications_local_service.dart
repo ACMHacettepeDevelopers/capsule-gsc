@@ -40,19 +40,21 @@ class MedicationsService {
               body: "${medication.name} needs to be taken now."),
           schedule: NotificationAndroidCrontab.daily(referenceDateTime: time),
         );
-        print("Notification is created for $time");
       }
       if (Platform.isIOS) {
-        DateTime time = DateTime(now.year, now.month, now.day,
-            format.parse(timeString).hour, format.parse(timeString).minute);
-        AwesomeNotifications().createNotification(
-          content: NotificationContent(
-              id: 1,
+        for (int i = 0; i < medication.usageDays; i++) {
+          DateTime time = DateTime(now.year, now.month, now.day + i,
+              format.parse(timeString).hour, format.parse(timeString).minute);
+          AwesomeNotifications().createNotification(
+            content: NotificationContent(
+              id: i + 1,
               channelKey: 'basic_channel',
               title: 'Hey buddy! Time to take your medication!',
-              body: "${medication.name} needs to be taken now."),
-              schedule: NotificationCalendar.fromDate(date: time),
-        );
+              body: "${medication.name} needs to be taken now.",
+            ),
+            schedule: NotificationCalendar.fromDate(date: time),
+          );
+        }
       }
     });
   }
@@ -74,17 +76,19 @@ class MedicationsService {
     medications.remove(jsonEncode(medication));
     await prefs.setStringList("medications", medications);
   }
-  Future<void>updateMedicationsStatusUpdate() async {
+
+  Future<void> updateMedicationsStatusUpdate() async {
     final prefs = await SharedPreferences.getInstance();
-    final lastLogin = prefs.getString("lastLogin") ?? DateTime.now().toIso8601String();
+    final lastLogin =
+        prefs.getString("lastLogin") ?? DateTime.now().toIso8601String();
     final now = DateTime.now();
     final difference = now.difference(DateTime.parse(lastLogin)).inDays;
     print(difference);
     if (difference > 0) {
-      
       final List<Medication> medications = await getMedicationsFromLocal();
       for (var medication in medications) {
-        final DateTime endDay = medication.dayAdded.add(Duration(days: medication.usageDays));
+        final DateTime endDay =
+            medication.dayAdded.add(Duration(days: medication.usageDays));
         final int remainingDays = endDay.difference(now).inDays;
         if (remainingDays <= 0) {
           medication.status = MedicationStatus.notTaken.toString();
