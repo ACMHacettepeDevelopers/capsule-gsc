@@ -12,6 +12,7 @@ class MainScreen extends StatefulWidget {
   }
 }
 
+
 class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
@@ -20,6 +21,7 @@ class _MainScreenState extends State<MainScreen> {
   }
   @override
   Widget build(BuildContext context) {
+    final firebaseAuth = FirebaseAuth.instance;
     return Scaffold(
       appBar: AppBar(actions: [
         IconButton(
@@ -65,6 +67,7 @@ class _MainScreenState extends State<MainScreen> {
                     leading: const Icon(Icons.info),
                     onTap: () => Navigator.of(context).pushNamed("/contact-us"),
                   ),
+                  Padding(padding: const EdgeInsets.only(top:30,bottom: 5),child: IconButton(onPressed: () async => await firebaseAuth.signOut() ,icon: const Icon(Icons.output_sharp)),)
                 ],
               ),
             ],

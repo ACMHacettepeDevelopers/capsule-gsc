@@ -37,7 +37,9 @@ void main() async {
   );
   bool isNotificationsAllowed = await AwesomeNotifications().isNotificationAllowed();
   if (!isNotificationsAllowed) {
-    await AwesomeNotifications().requestPermissionToSendNotifications();
+    await AwesomeNotifications().requestPermissionToSendNotifications(permissions: [
+      NotificationPermission.PreciseAlarms,
+    ]);
   }
   runApp(const ProviderScope(child: MyApp()));
 }

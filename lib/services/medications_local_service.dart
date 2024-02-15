@@ -38,14 +38,15 @@ class MedicationsService {
               channelKey: 'basic_channel',
               title: 'Hey buddy! Time to take your medication!',
               body: "${medication.name} needs to be taken now."),
-          schedule: NotificationAndroidCrontab.daily(referenceDateTime: time),
+          schedule: NotificationAndroidCrontab.daily(referenceDateTime: time,),
+          
         );
       }
       if (Platform.isIOS) {
         for (int i = 0; i < medication.usageDays; i++) {
           DateTime time = DateTime(now.year, now.month, now.day + i,
               format.parse(timeString).hour, format.parse(timeString).minute);
-          AwesomeNotifications().createNotification(
+           AwesomeNotifications().createNotification(
             content: NotificationContent(
               id: i + 1,
               channelKey: 'basic_channel',
