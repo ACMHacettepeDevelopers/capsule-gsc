@@ -101,7 +101,7 @@ class _MainScreenState extends State<MainScreen> {
               final medication = medications[index];
               if(medication.remainingDays > 0){
               return MedicationCard(medication: medication);}
-            },
+            }
           );
         },
       ),

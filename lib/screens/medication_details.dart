@@ -13,8 +13,6 @@ class MedicationDetails extends StatefulWidget {
 class _MedicationDetailsState extends State<MedicationDetails> {
   @override
   Widget build(BuildContext context) {
-    print("asdasdsadsadsadsadsadsadasdsadasdasdasdsa");
-    print(widget.medication!.name);
     return Scaffold(
         appBar: AppBar(
           title: const Text("Medication Details"),
@@ -31,7 +29,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
                         builder: (context) =>
                             Table_Calender(medication: widget.medication!)));
                   },
-                  child: Text("Go to calender")),
+                  child:const  Text("Go to calendar")),
             ],
           ),
         ));

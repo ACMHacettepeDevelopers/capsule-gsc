@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 import 'package:capsule_app/models/medication.dart';
 import 'package:capsule_app/models/notification.dart';
 import "package:shared_preferences/shared_preferences.dart";
@@ -83,10 +82,10 @@ class MedicationsService {
     final List<String> notifications = prefs.getStringList("notifications") ?? [];
     List<Notification>  notificationList = notifications.map((e) => Notification.fromJson(jsonDecode(e))).toList();
     final List<String> medications = prefs.getStringList("medications") ?? [];
-      AwesomeNotifications().cancelSchedule(notificationList.firstWhere((element) => element.id == medication.notificationId!).id);
+      AwesomeNotifications().cancelSchedule(notificationList.firstWhere((element) => element.id == medication.notificationId).id);
       print("DELETED NOTIFICATION ${medication.times}");
       
-      notificationList.removeWhere((element) => element.id == medication.notificationId!);
+      notificationList.removeWhere((element) => element.id == medication.notificationId);
       prefs.setStringList("notifications", notificationList.map((e) => jsonEncode(e)).toList());
       
     medications.remove(jsonEncode(medication));
