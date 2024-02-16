@@ -52,41 +52,85 @@ class _SignUpWidgetState extends ConsumerState<SignUpWidget> {
   Widget build(BuildContext context) {
     return Form(
       key: _form,
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        TextFormField(
-            keyboardType: TextInputType.name,
-            decoration: const InputDecoration(labelText: "Name"),
-            autocorrect: false,
-            textCapitalization: TextCapitalization.none,
-            validator: Validator.credentialValidator,
-            onSaved: (newValue) {
-              _enteredName = newValue!;
-            }),
-        TextFormField(
-            keyboardType: TextInputType.name,
-            decoration: const InputDecoration(labelText: "Surname"),
-            autocorrect: false,
-            textCapitalization: TextCapitalization.none,
-            validator: Validator.credentialValidator,
-            onSaved: (newValue) {
-              _enteredLastName = newValue!;
-            }),
-        TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(labelText: "E-mail Address"),
-            autocorrect: false,
-            textCapitalization: TextCapitalization.none,
-            validator: Validator.emailValidator,
-            onSaved: (newValue) {
-              _enteredEmail = newValue!;
-            }),
-        TextFormField(
-          decoration: const InputDecoration(labelText: "Password"),
-          obscureText: true,
-          validator: Validator.passwordValidator,
-          onSaved: (newValue) {
-            _enteredPassword = newValue!;
-          },
+      child: Column(children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            border: Border.all(color: Colors.white),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+           padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: TextFormField(
+                keyboardType: TextInputType.name,
+                decoration: const InputDecoration(
+                      border: InputBorder.none, hintText: "Name"),
+                autocorrect: false,
+                textCapitalization: TextCapitalization.none,
+                validator: Validator.credentialValidator,
+                onSaved: (newValue) {
+                  _enteredName = newValue!;
+                }),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            border: Border.all(color: Colors.white),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: TextFormField(
+                keyboardType: TextInputType.name,
+                decoration: const InputDecoration(
+                      border: InputBorder.none, hintText: "Surname"),
+                autocorrect: false,
+                textCapitalization: TextCapitalization.none,
+                validator: Validator.credentialValidator,
+                onSaved: (newValue) {
+                  _enteredLastName = newValue!;
+                }),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            border: Border.all(color: Colors.white),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                      border: InputBorder.none, hintText: "E-mail"),
+                autocorrect: false,
+                textCapitalization: TextCapitalization.none,
+                validator: Validator.emailValidator,
+                onSaved: (newValue) {
+                  _enteredEmail = newValue!;
+                }),
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.grey[200],
+            border: Border.all(color: Colors.white),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: TextFormField(
+              decoration: const InputDecoration(
+                      border: InputBorder.none, hintText: "Password"),
+              obscureText: true,
+              validator: Validator.passwordValidator,
+              onSaved: (newValue) {
+                _enteredPassword = newValue!;
+              },
+            ),
+          ),
         ),
         const SizedBox(
           height: 20,
@@ -94,13 +138,27 @@ class _SignUpWidgetState extends ConsumerState<SignUpWidget> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: _submit,
-              style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Theme.of(context).colorScheme.primaryContainer),
-              child: const Text("Sign up"),
+            Padding(
+          padding: const EdgeInsets.only(right:10),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 77, 144, 200),
+              borderRadius: BorderRadius.circular(12),
             ),
+            child: Center(
+              child: TextButton(
+                  onPressed: () => _submit(),
+                  child: const Text(
+                    "Sign Up",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10),
+                  )),
+            ),
+          ),
+        ),
             const SizedBox(
               width: 40,
             ),
@@ -109,7 +167,7 @@ class _SignUpWidgetState extends ConsumerState<SignUpWidget> {
                   ref.read(loginFormProvider.notifier).state =
                       AuthFormState.login;
                 },
-                child: const Text("Already have an account")),
+                child: const Text("Already have an account",style: TextStyle(color: Colors.blue,fontSize: 12),)),
           ],
         ),
       ]),

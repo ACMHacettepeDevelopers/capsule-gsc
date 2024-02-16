@@ -104,9 +104,8 @@ class MedicationsService {
         final DateTime endDay =
             medication.dayAdded.add(Duration(days: medication.usageDays));
         final int remainingDays = endDay.difference(now).inDays;
-        if (remainingDays <= 0) {
-          medication.status = MedicationStatus.notTaken.toString();
-          updateMedication(medication);
+        if (remainingDays == 0) {
+          deleteMedication(medication);
         }
       }
     }
