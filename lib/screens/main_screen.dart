@@ -31,7 +31,7 @@ class _MainScreenState extends State<MainScreen> {
       ]),
       drawer: Drawer(
         child: Container(
-          color: Colors.deepPurple[200],
+          color: Colors.grey[300],
           width: 300,
           child: ListView(
             children: [
@@ -67,11 +67,6 @@ class _MainScreenState extends State<MainScreen> {
                     title: const Text("About Us"),
                     leading: const Icon(Icons.info),
                     onTap: () => Navigator.of(context).pushNamed("/about-us"),
-                  ),
-                  ListTile(
-                    title: const Text("Contact Us"),
-                    leading: const Icon(Icons.info),
-                    onTap: () => Navigator.of(context).pushNamed("/contact-us"),
                   ),
                 ],
               ),
