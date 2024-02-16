@@ -4,7 +4,6 @@ import 'package:capsule_app/screens/about_screen.dart';
 import 'package:capsule_app/screens/add_medication.dart';
 import 'package:capsule_app/screens/auth_screen.dart';
 import 'package:capsule_app/screens/chat_screen.dart';
-import 'package:capsule_app/screens/contact_us_screen.dart';
 import 'package:capsule_app/screens/main_screen.dart';
 import 'package:capsule_app/screens/medication_details.dart';
 import 'package:capsule_app/screens/medications.dart';
@@ -88,7 +87,6 @@ class _MyAppState extends State<MyApp> {
         "/medications": (ctx) => const Medications(),
         "/chat-screen": (ctx) => const ChatScreen(),
         "/about-us": (ctx) => const AboutScreen(),
-        "/contact-us": (ctx) => const ContactScreen(),
         "/add-medication": (ctx) => const AddMedication(),
         "/medication-details": (ctx) =>  const MedicationDetails(medication: null),
       }

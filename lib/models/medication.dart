@@ -22,7 +22,6 @@ class Medication {
   final DateTime dayAdded;
   final String times;
   final int usageDays;
-
   MedicationType? medicationType;
   int get remainingDays {
     final DateTime endDay = dayAdded.add(Duration(days: usageDays));

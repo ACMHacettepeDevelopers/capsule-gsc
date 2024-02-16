@@ -5,9 +5,9 @@ import 'package:capsule_app/services/medications_local_service.dart';
 import 'package:flutter/material.dart';
 
 class MedicationCard extends StatefulWidget {
-  final Medication medication;
+  Medication medication;
 
-  const MedicationCard({Key? key, required this.medication}) : super(key: key);
+  MedicationCard({Key? key, required this.medication}) : super(key: key);
 
   @override
   _MedicationCardState createState() => _MedicationCardState();
@@ -15,7 +15,7 @@ class MedicationCard extends StatefulWidget {
 
 class _MedicationCardState extends State<MedicationCard> {
   late Map<String, dynamic> selectedTimes;
-
+  
   @override
   void initState() {
     super.initState();
@@ -24,7 +24,9 @@ class _MedicationCardState extends State<MedicationCard> {
 
   @override
   Widget build(BuildContext context) {
+    bool isTaken = widget.medication.status == MedicationStatus.taken.toString() ? true : false;
     return Card(
+      color:  isTaken ? Colors.green[100] : Colors.white,
       elevation: 3,
       margin: const EdgeInsets.all(16),
       child: Padding(
@@ -53,8 +55,7 @@ class _MedicationCardState extends State<MedicationCard> {
   }
 
   List<Widget> _buildTimeCheckboxes(BuildContext context) {
-    bool allSelected =
-        widget.medication.status == MedicationStatus.taken.toString();
+    bool allSelected = true;
 
     final checkboxes = selectedTimes.entries.map((entry) {
       final String time = entry.key;
@@ -73,8 +74,11 @@ class _MedicationCardState extends State<MedicationCard> {
             onChanged: (value) {
               setState(() {
                 selectedTimes[time] = value ?? false;
+                _updateMedicationStatus();
+                
               });
-              _updateMedicationStatus();
+              
+              
             },
           ),
         ],
@@ -112,6 +116,10 @@ class _MedicationCardState extends State<MedicationCard> {
     );
 
     MedicationsService().updateMedication(updatedMedication);
+    setState(() {
+      widget.medication = updatedMedication;
+    });
     
   }
+  
 }
