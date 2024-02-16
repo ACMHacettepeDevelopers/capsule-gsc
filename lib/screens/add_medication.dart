@@ -94,12 +94,14 @@ class _AddMedicationState extends State<AddMedication> {
             child: Column(
               children: [
                 TextFormField(
+                  enabled: !isTimePickerOn,
                   decoration:
                       const InputDecoration(labelText: "Medication Name"),
                   validator: validator.medicationNameValidator,
                   onSaved: (newValue) => _medicationName = newValue!,
                 ),
                 TextFormField(
+                  enabled: !isTimePickerOn,
                   decoration:
                       const InputDecoration(labelText: "Dose (Daily amount)"),
                   validator: validator.medicationDoseValidator,
@@ -112,6 +114,7 @@ class _AddMedicationState extends State<AddMedication> {
                   },
                 ),
                 TextFormField(
+                  enabled: !isTimePickerOn,
                   decoration:
                       const InputDecoration(labelText: "Usage Time (Days)"),
                   validator: validator.medicationUsageValidator,
