@@ -4,6 +4,7 @@ import 'package:capsule_app/models/medication.dart';
 import 'package:capsule_app/services/medications_local_service.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MedicationCard extends StatefulWidget {
   Medication medication;
 
@@ -15,7 +16,7 @@ class MedicationCard extends StatefulWidget {
 
 class _MedicationCardState extends State<MedicationCard> {
   late Map<String, dynamic> selectedTimes;
-  
+
   @override
   void initState() {
     super.initState();
@@ -24,9 +25,11 @@ class _MedicationCardState extends State<MedicationCard> {
 
   @override
   Widget build(BuildContext context) {
-    bool isTaken = widget.medication.status == MedicationStatus.taken.toString() ? true : false;
+    bool isTaken = widget.medication.status == MedicationStatus.taken.toString()
+        ? true
+        : false;
     return Card(
-      color:  isTaken ? Colors.green[100] : Colors.white,
+      color: isTaken ? Colors.green[100] : Colors.white,
       elevation: 3,
       margin: const EdgeInsets.all(16),
       child: Padding(
@@ -34,16 +37,31 @@ class _MedicationCardState extends State<MedicationCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Medication: ${widget.medication.name}',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Row(
+              children: [
+                Text(
+                  widget.medication.name,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const Spacer(),
+                Image.asset(
+                  widget.medication.medicationType == MedicationType.pill
+                      ? 'lib/assets/pill.png'
+                      : widget.medication.medicationType ==
+                              MedicationType.needle
+                          ? 'lib/assets/needle.png'
+                          : 'lib/assets/syrup.png',
+                  height: 35,
+                  width: 35,
+                )
+              ],
             ),
             const SizedBox(height: 8),
             Text('Days Left: ${widget.medication.remainingDays}'),
             const SizedBox(height: 8),
             const Text('Scheduled Times',
-                style:
-                    TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Column(
               children: _buildTimeCheckboxes(context),
@@ -75,10 +93,7 @@ class _MedicationCardState extends State<MedicationCard> {
               setState(() {
                 selectedTimes[time] = value ?? false;
                 _updateMedicationStatus();
-                
               });
-              
-              
             },
           ),
         ],
@@ -119,7 +134,5 @@ class _MedicationCardState extends State<MedicationCard> {
     setState(() {
       widget.medication = updatedMedication;
     });
-    
   }
-  
 }

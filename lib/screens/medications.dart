@@ -112,12 +112,17 @@ class _MedicationsState extends State<Medications> {
                                       width: double.infinity,
                                       height: 150.0,
                                     )
-                                  : Image.asset(
+                                  : medication.medicationType == MedicationType.needle ? Image.asset(
                                       "lib/assets/needle.jpeg",
                                       fit: BoxFit.cover,
                                       width: double.infinity,
                                       height: 150.0,
-                                    ),
+                                    ): Image.asset(
+                                      "lib/assets/syrup.png",
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 150.0,
+                                    )
                         ),
                         Positioned(
                           bottom: 8.0,

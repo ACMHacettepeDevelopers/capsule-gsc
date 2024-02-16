@@ -7,6 +7,7 @@ enum MedicationStatus {
 enum MedicationType {
   pill,
   needle,
+  syrup,
   // theraphy,
   // exercise,
 }
