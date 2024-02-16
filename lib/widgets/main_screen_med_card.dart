@@ -75,8 +75,6 @@ class _MedicationCardState extends State<MedicationCard> {
                 selectedTimes[time] = value ?? false;
               });
               _updateMedicationStatus();
-              setState(() {
-              });
             },
           ),
         ],
@@ -107,6 +105,7 @@ class _MedicationCardState extends State<MedicationCard> {
     }
 
     final updatedMedication = widget.medication.copyWith(
+      times: jsonEncode(selectedTimes),
       status: allSelected
           ? MedicationStatus.taken.toString()
           : MedicationStatus.notTaken.toString(),
