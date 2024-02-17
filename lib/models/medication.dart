@@ -24,9 +24,7 @@ class Medication {
     required this.name,
     required this.times,
     this.usageDaysMap = const {},
-  }) {
-    _initializeUsageDays();
-  }
+  });
   final int notificationId;
   final String id;
   final String name;
@@ -102,7 +100,8 @@ Map<String, dynamic> toJson() {
       usageDaysMap: usageDaysMap ?? this.usageDaysMap,
     );
   }
-  void _initializeUsageDays() {
+  void initializeUsageDays() {
+    print("DAYS MAP INITIZALIZED");
     usageDaysMap = {};
     for (int i = 0; i < usageDays; i++) {
       DateTime usageDay = dayAdded.add(Duration(days: i));

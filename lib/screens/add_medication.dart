@@ -152,8 +152,7 @@ class _AddMedicationState extends State<AddMedication> {
                       )
                     : ElevatedButton(
                         onPressed: () async {
-                          await medicationsService.addMedication(
-                            Medication(
+                          final Medication medication =  Medication(
                               notificationId: Random().nextInt(1000),
                               id: DateTime.now().toString(),
                               name: _medicationName,
@@ -163,7 +162,10 @@ class _AddMedicationState extends State<AddMedication> {
                               medicationType: _type,
                               dayAdded: DateTime.now(),
                               times: jsonEncode(_selectedTimes),
-                            ),
+                            );
+                          medication.initializeUsageDays();
+                          await medicationsService.addMedication(
+                            medication,
                           );
 
                           if (context.mounted) {

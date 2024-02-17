@@ -73,7 +73,7 @@ class MedicationsService {
     final List<String> medications = prefs.getStringList("medications") ?? [];
     final index = medications
         .indexWhere((element) => jsonDecode(element)["id"] == medication.id);
-    medications[index] = jsonEncode(medication);
+    medications[index] = jsonEncode(medication.toJson());
     await prefs.setStringList("medications", medications);
   }
 
@@ -119,11 +119,12 @@ Future<void> updateMedicationsStatusUpdate() async {
   for (String medicationString in medications) {
     Medication medication = Medication.fromJson(jsonDecode(medicationString));
 
-    // Check if today's date is in the usageDaysMap
     DateTime today = DateTime.now();
     DateTime todayWithoutTime = DateTime(today.year, today.month, today.day);
 
     if (medication.usageDaysMap.containsKey(todayWithoutTime)) {
+      print(medication.usageDaysMap);
+          
       medication.status = medication.usageDaysMap[todayWithoutTime]!
           ? MedicationStatus.taken.toString()
           : MedicationStatus.notTaken.toString();
