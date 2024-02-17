@@ -1,0 +1,26 @@
+"""return Scaffold(
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            expandedHeight: 200,
+            floating: false,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              //background: Image.asset("assets/${widget.medication?.id}"),
+              background: Image.network(
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Cristiano_Ronaldo_Al-Nassr_2023.jpg/250px-Cristiano_Ronaldo_Al-Nassr_2023.jpg",
+                  fit: BoxFit.cover),
+            ),
+          ),
+          SliverFillRemaining(
+            child: PageView(
+              children: <Widget>[
+                Container(
+                  color: Colors.black,
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
