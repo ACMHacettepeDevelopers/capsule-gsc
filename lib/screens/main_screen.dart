@@ -24,10 +24,18 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final firebaseAuth = FirebaseAuth.instance;
     return Scaffold(
-
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed("/chat-screen");
+        },
+        
+        backgroundColor: const Color.fromARGB(255, 95, 174, 238),
+        child: const Icon(Icons.chat),
+      ),
       appBar: AppBar(
         shadowColor: Colors.grey,
-        backgroundColor: Colors.red,
+        backgroundColor: const Color.fromARGB(255, 95, 174, 238),
         actions: [
           IconButton(onPressed: ()=> setState(() {
           }), icon: const Icon(Icons.refresh)),
@@ -91,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
           gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Colors.red, Colors.grey])),
+              colors: [Color.fromARGB(255, 95, 174, 238), Colors.grey])),
         child: FutureBuilder<List<Medication>>(
           future: MedicationsService().getMedicationsFromLocal(),
           builder: (context, snapshot) {
