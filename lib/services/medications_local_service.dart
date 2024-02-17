@@ -92,32 +92,45 @@ class MedicationsService {
     await prefs.setStringList("medications", medications);
   }
 
-  Future<void> updateMedicationsStatusUpdate() async {
-    final prefs = await SharedPreferences.getInstance();
-    final lastLogin =
-        prefs.getString("lastLogin") ?? DateTime.now().toIso8601String();
-    final now = DateTime.now();
-    final difference = now.difference(DateTime.parse(lastLogin)).inDays;
-    if (difference > 0) {
-      final List<Medication> medications = await getMedicationsFromLocal();
-      for (var medication in medications) {
-        final DateTime endDay =
-            medication.dayAdded.add(Duration(days: medication.usageDays));
-        final int remainingDays = endDay.difference(now).inDays;
-        if (remainingDays == 0) {
-          deleteMedication(medication);
-        }
-      }
+  // Future<void> updateMedicationsStatusUpdate() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final lastLogin =
+  //       prefs.getString("lastLogin") ?? DateTime.now().toIso8601String();
+  //   final now = DateTime.now();
+  //   final difference = now.difference(DateTime.parse(lastLogin)).inDays;
+  //   if (difference > 0) {
+  //     final List<Medication> medications = await getMedicationsFromLocal();
+  //     for (var medication in medications) {
+  //       final DateTime endDay =
+  //           medication.dayAdded.add(Duration(days: medication.usageDays));
+  //       final int remainingDays = endDay.difference(now).inDays;
+  //       if (remainingDays == 0) {
+  //         deleteMedication(medication);
+  //       }
+  //     }
+  //   }
+  //   await prefs.setString("lastLogin", now.toIso8601String());
+  // }
+
+Future<void> updateMedicationsStatusUpdate() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final List<String> medications = prefs.getStringList("medications") ?? [];
+
+  for (String medicationString in medications) {
+    Medication medication = Medication.fromJson(jsonDecode(medicationString));
+
+    // Check if today's date is in the usageDaysMap
+    DateTime today = DateTime.now();
+    DateTime todayWithoutTime = DateTime(today.year, today.month, today.day);
+
+    if (medication.usageDaysMap.containsKey(todayWithoutTime)) {
+      medication.status = medication.usageDaysMap[todayWithoutTime]!
+          ? MedicationStatus.taken.toString()
+          : MedicationStatus.notTaken.toString();
     }
-    await prefs.setString("lastLogin", now.toIso8601String());
+
+    await updateMedication(medication);
   }
-//   Future<List<Medication>> getMedicationsWithRemainingDays() async {
-//   final List<Medication> medications = await getMedicationsFromLocal();
-//   final DateTime now = DateTime.now();
-//   for (var medication in medications) {
-//     final DateTime endDay = medication.dayAdded.add(Duration(days: medication.usageDays));
-//     final int remainingDays = endDay.difference(now).inDays;
-//   }
-//   return medications;
-// }
+}
+
 }

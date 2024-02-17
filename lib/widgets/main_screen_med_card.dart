@@ -115,24 +115,35 @@ class _MedicationCardState extends State<MedicationCard> {
   }
 
   void _updateMedicationStatus() {
-    bool allSelected = true;
-    for (final entry in selectedTimes.entries) {
-      if (!entry.value) {
-        allSelected = false;
-        break;
-      }
+  bool allSelected = true;
+
+  for (final entry in selectedTimes.entries) {
+    if (!entry.value) {
+      allSelected = false;
+      break;
     }
-
-    final updatedMedication = widget.medication.copyWith(
-      times: jsonEncode(selectedTimes),
-      status: allSelected
-          ? MedicationStatus.taken.toString()
-          : MedicationStatus.notTaken.toString(),
-    );
-
-    MedicationsService().updateMedication(updatedMedication);
-    setState(() {
-      widget.medication = updatedMedication;
-    });
   }
+
+  DateTime today = DateTime.now();
+  DateTime todayWithoutTime = DateTime(today.year, today.month, today.day);
+
+  final updatedMedication = widget.medication.copyWith(
+    times: jsonEncode(selectedTimes),
+    status: allSelected
+        ? MedicationStatus.taken.toString()
+        : MedicationStatus.notTaken.toString(),
+  );
+
+  if (updatedMedication.status == MedicationStatus.taken.toString()) {
+    updatedMedication.usageDaysMap[todayWithoutTime] = true;
+  }
+  print(updatedMedication.usageDaysMap);
+
+  MedicationsService().updateMedication(updatedMedication);
+
+  setState(() {
+    widget.medication = updatedMedication;
+  });
+}
+
 }
