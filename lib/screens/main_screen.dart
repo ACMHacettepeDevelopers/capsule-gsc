@@ -24,7 +24,13 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     final firebaseAuth = FirebaseAuth.instance;
     return Scaffold(
-      appBar: AppBar(actions: [
+
+      appBar: AppBar(
+        shadowColor: Colors.grey,
+        backgroundColor: Colors.red,
+        actions: [
+          IconButton(onPressed: ()=> setState(() {
+          }), icon: const Icon(Icons.refresh)),
         IconButton(
             onPressed: () async => await FirebaseAuth.instance.signOut(),
             icon: const Icon(Icons.logout))
@@ -80,25 +86,32 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-      body: FutureBuilder<List<Medication>>(
-        future: MedicationsService().getMedicationsFromLocal(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}"));
-          }
-          final medications = snapshot.data ?? [];
-          return ListView.builder(
-            itemCount: medications.length,
-            itemBuilder: (context, index) {
-              final medication = medications[index];
-              if(medication.remainingDays > 0){
-              return MedicationCard(medication: medication);}
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.red, Colors.grey])),
+        child: FutureBuilder<List<Medication>>(
+          future: MedicationsService().getMedicationsFromLocal(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
             }
-          );
-        },
+            if (snapshot.hasError) {
+              return Center(child: Text("Error: ${snapshot.error}"));
+            }
+            final medications = snapshot.data ?? [];
+            return ListView.builder(
+              itemCount: medications.length,
+              itemBuilder: (context, index) {
+                final medication = medications[index];
+                if(medication.remainingDays > 0){
+                return MedicationCard(medication: medication);}
+              }
+            );
+          },
+        ),
       ),
     );
   }
