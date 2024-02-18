@@ -6,24 +6,38 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends ConsumerState<ChatScreen> {
   final currentUserUid = FirebaseAuth.instance.currentUser!.uid;
   final FirebaseChatService firebaseChatService = FirebaseChatService();
   final ChatBotService chatBotService = ChatBotService();
   var uuid = const Uuid();
+  @override
+  void initState() {
+    super.initState();
+    initalizeChatBot();
+  }
+  Future<void> initalizeChatBot() async {
+    final oldChat = await chatBotService.loadChatHistory();
+    await chatBotService.initializeChatBot(oldChat);
 
+    
+    
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(title: const Text("Chat"), actions: [
+      appBar: AppBar(
+        title: const Text("Gemini Chat"), actions: [
         ElevatedButton(
           onPressed: () async {
             showDialog(
@@ -77,7 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ElevatedButton(
                     onPressed: () async {
                       await firebaseChatService.startNewChat(currentUserUid);
-                      await chatBotService.initializeChatBot();
+                      await initalizeChatBot();
                     },
                     child: const Text("Create Chat"),
                   ),

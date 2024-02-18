@@ -10,6 +10,13 @@ class FirebaseChatService {
         .doc(userId)
         .snapshots();
   }
+  Future<DocumentSnapshot> getMessagesFuture(String userId) {
+    return _firestore
+        .collection('chats')
+        .doc(userId)
+        .get();
+
+  }
 
   Future<void> startNewChat(String userId) async {
     final chat = await _firestore
