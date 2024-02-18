@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:capsule_app/models/medication.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Table_Calender extends StatefulWidget {
@@ -16,7 +17,6 @@ class _Table1Calender extends State<Table_Calender> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("hello")),
       body: content(), //
     );
   }
@@ -26,12 +26,21 @@ class _Table1Calender extends State<Table_Calender> {
       children: [
         TableCalendar(
           startingDayOfWeek: StartingDayOfWeek.monday,
+          daysOfWeekStyle: DaysOfWeekStyle(
+              weekdayStyle:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              weekendStyle:
+                  TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
 
           weekendDays: [DateTime.saturday, DateTime.sunday],
-          rowHeight: 53,
+          rowHeight: 35,
+
           availableGestures: AvailableGestures.all,
           headerStyle: const HeaderStyle(
-              formatButtonVisible: false, titleCentered: true),
+              formatButtonVisible: false,
+              titleCentered: true,
+              titleTextStyle:
+                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           focusedDay: widget.medication.dayAdded,
           firstDay: widget.medication.dayAdded,
           lastDay: widget.medication.endDay,
@@ -52,6 +61,10 @@ class _Table1Calender extends State<Table_Calender> {
             },
           ),
           calendarStyle: const CalendarStyle(
+            selectedDecoration: BoxDecoration(
+              color: Colors.blue,
+              shape: BoxShape.circle,
+            ),
             defaultTextStyle:
                 TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             weekendTextStyle: TextStyle(
