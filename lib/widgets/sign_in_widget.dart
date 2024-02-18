@@ -59,7 +59,6 @@ class _SignInWidgetState extends ConsumerState<SignInWidget> {
               padding: const EdgeInsets.only(left: 10),
               child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
-                  initialValue: "1@1.com",
                   decoration: const InputDecoration(
                       border: InputBorder.none, hintText: "E-mail"),
                   autocorrect: false,
@@ -85,7 +84,6 @@ class _SignInWidgetState extends ConsumerState<SignInWidget> {
             child: Padding(
               padding: const EdgeInsets.only(left: 10),
               child: TextFormField(
-                initialValue: "123456",
                 decoration: const InputDecoration(labelText: "Password"),
                 obscureText: true,
                 validator: Validator.passwordValidator,
