@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:capsule_app/models/medication.dart';
 import 'package:capsule_app/models/notification.dart';
 import "package:shared_preferences/shared_preferences.dart";
@@ -133,5 +134,13 @@ Future<void> updateMedicationsStatusUpdate() async {
     await updateMedication(medication);
   }
 }
+  // Future<String> pickRandomMedicationName() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final List<String> medications = prefs.getStringList("medications") ?? [];
+  //   final List<String> medicationNames = medications.map((e) => Medication.fromJson(jsonDecode(e)).name).toList();
+  //   final Random random = Random();
+  //   final String randomMedicationName = medicationNames[random.nextInt(medicationNames.length)];
+  //   return randomMedicationName;
+  // }
 
 }

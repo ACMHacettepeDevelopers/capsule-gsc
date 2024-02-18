@@ -66,7 +66,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Capsule App',
       theme: ThemeData(
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor:const Color.fromARGB(255, 95, 174, 238)),
         useMaterial3: true,
       ),
       home:  StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (ctx,snapshot){
