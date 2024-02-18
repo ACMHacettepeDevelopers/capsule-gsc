@@ -63,9 +63,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
               const SizedBox(
                 height: 10,
               ),
-              aboutMedicine(
-                   widget.medication
-                   !),
+              medicineDose(widget.medication!),
               const SizedBox(
                 height: 15,
               ),
@@ -98,7 +96,7 @@ Container Title_Text(String title) {
     ),
     child: Center(
       child: Text(
-        "More Information About ${title}",
+        "More Information About $title",
         style: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -119,7 +117,7 @@ Container aboutMedicine(Medication medication) {
       borderRadius: const BorderRadius.all(Radius.circular(20)),
     ),
     height: 40,
-    width: "$name has ${medication.dose} doses in a day. You do not forget it"
+    width:  "$name has to be taken at ${timesArray.join(", ")}"
             .length
             .toDouble() *
         10,
@@ -133,6 +131,30 @@ Container aboutMedicine(Medication medication) {
       ),
     ),
   );
+}
+Container medicineDose(Medication medication) {
+  final name = medication.name;
+  final times = jsonDecode(medication.times) as Map<String, dynamic>;
+  final timesArray = times.keys.toList();
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.green[200],
+      borderRadius: const BorderRadius.all(Radius.circular(20)),
+    ),
+    height: 40,
+    width: "$name has ${medication.dose} doses in a day. Don't forget to take them."
+            .length
+            .toDouble() *
+        10,
+    child: Center(
+      child: Text(
+        "$name has ${medication.dose} doses in a day. Don't forget to take them.",style: const TextStyle(
+          fontWeight: FontWeight.w700,
+          color: Colors.black87,
+        ),),
+        
+      ),
+    );
 }
 
 Widget subTitle(String title) {

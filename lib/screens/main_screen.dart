@@ -110,6 +110,26 @@ class _MainScreenState extends State<MainScreen> {
               return Center(child: Text("Error: ${snapshot.error}"));
             }
             final medications = snapshot.data ?? [];
+            if(medications.isEmpty){
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Padding(
+                      padding:  EdgeInsets.symmetric(horizontal: 20),
+                      child:  Text("You have no medications added.Let's add some to get started!",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed("/add-medication");
+                      },
+                      child: const Text("Add Medication"),
+                    ),
+                  ],
+                ),
+              );
+            }
             return ListView.builder(
               itemCount: medications.length,
               itemBuilder: (context, index) {
