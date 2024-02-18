@@ -32,7 +32,7 @@ class _Table1Calender extends State<Table_Calender> {
           availableGestures: AvailableGestures.all,
           headerStyle:
               const HeaderStyle(formatButtonVisible: false, titleCentered: true),
-          focusedDay: today,
+          focusedDay: widget.medication.dayAdded,
           firstDay: widget.medication.dayAdded,
           lastDay: widget.medication.endDay,
           selectedDayPredicate: (day) =>
@@ -40,8 +40,8 @@ class _Table1Calender extends State<Table_Calender> {
           calendarBuilders: CalendarBuilders(
             defaultBuilder: (context, day, focusedDay) {
               DateTime dayWithoutTime = DateTime(day.year, day.month, day.day);
+              DateTime today = DateTime.now();
               DateTime todayWithoutTime = DateTime(today.year, today.month, today.day);
-              today = dayWithoutTime.subtract(const Duration(days: 1));
               bool isDayTaken = widget.medication.usageDaysMap[dayWithoutTime] == true;
               if (isDayTaken) { 
                 return takenBoxPill();
