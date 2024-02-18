@@ -3,6 +3,7 @@
   <p></p>
   <p><i>Smart Medication Management for a Healthier Tomorrow</i></p>
   <div align="center" style="display:flex; gap: 8px; justify-content: center; margin-bottom: 16px">
+  <img src="https://img.shields.io/badge/GEMINI-00217f?style=for-the-badge&logo=Google Bard&logoColor=fff" alt="GEMINI" />
   <img src="https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white"/>
   <img src="https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white"/>
   <img src="https://img.shields.io/badge/Firebase-039cE5?style=for-the-badge&logo=Firebase&logoColor=white/">
@@ -12,7 +13,7 @@
 
 ## About the Project
 
-Capsule is a medication reminder and tracker app! This application aims to assist users in managing their medications effectively. The app features a user-friendly interface, medication reminders, and an AI chatbot to help users understand their medications better.
+Capsule is a medication reminder and tracker app. This application aims to assist users in managing their medications effectively. The app features a user-friendly interface, medication reminders, and an AI chatbot to help users understand their medications better.
 
 
 <p>Product demo:</p>
@@ -62,3 +63,8 @@ Follow these steps to get the app up and running on your local machine.
   ```bash
   flutter run
   ```
+## Acknowledgements
+- A special thanks to everyone who tested our app and provided valuable feedback
+- We would like to express our gratitude to the following student clubs for their support:
+  - GDSC Hacettepe University
+  - ACM Hacettepe Student Chapter
