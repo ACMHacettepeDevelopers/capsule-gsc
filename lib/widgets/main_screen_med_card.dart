@@ -29,7 +29,7 @@ class _MedicationCardState extends State<MedicationCard> {
         ? true
         : false;
     return Card(
-      color: isTaken ? Colors.green[100] : Colors.white,
+      color: isTaken ? Colors.green[300] : Colors.grey,
       elevation: 3,
       margin: const EdgeInsets.all(16),
       child: Padding(
@@ -137,7 +137,6 @@ class _MedicationCardState extends State<MedicationCard> {
   if (updatedMedication.status == MedicationStatus.taken.toString()) {
     updatedMedication.usageDaysMap[todayWithoutTime] = true;
   }
-  print(updatedMedication.usageDaysMap);
 
   MedicationsService().updateMedication(updatedMedication);
 
