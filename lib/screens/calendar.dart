@@ -27,28 +27,28 @@ class _Table1Calender extends State<Table_Calender> {
         TableCalendar(
           startingDayOfWeek: StartingDayOfWeek.monday,
         
-          weekendDays: [DateTime.saturday, DateTime.sunday],
+          weekendDays: const [DateTime.saturday, DateTime.sunday],
           rowHeight: 53,
           availableGestures: AvailableGestures.all,
           headerStyle:
               const HeaderStyle(formatButtonVisible: false, titleCentered: true),
-          focusedDay: widget.medication.dayAdded,
+          focusedDay: today,
           firstDay: widget.medication.dayAdded,
           lastDay: widget.medication.endDay,
           selectedDayPredicate: (day) =>
               isSameDay(day, widget.medication.dayAdded),
-          //selectedDayPredicate
           calendarBuilders: CalendarBuilders(
-            selectedBuilder: (context, day, focusedDay) {
-              if (widget.medication.status ==
-                  MedicationStatus.taken.toString()) {
-                return TakenBoxPill();
-              } else if (widget.medication.status ==
-                  MedicationStatus.notTaken.toString()) {
-                return NotTakenBoxPill();
-              } else {
-                return UnknownBoxPill(date: day);
-              }
+            defaultBuilder: (context, day, focusedDay) {
+              DateTime dayWithoutTime = DateTime(day.year, day.month, day.day);
+              DateTime todayWithoutTime = DateTime(today.year, today.month, today.day);
+              today = dayWithoutTime.subtract(const Duration(days: 1));
+              bool isDayTaken = widget.medication.usageDaysMap[dayWithoutTime] == true;
+              if (isDayTaken) { 
+                return takenBoxPill();
+              } else if(!isDayTaken && dayWithoutTime.isBefore(todayWithoutTime)){
+                return notTakenBoxPill();
+              } 
+              return unknownBoxPill(date: day);
             },
           ),
           calendarStyle: const CalendarStyle(
@@ -63,7 +63,7 @@ class _Table1Calender extends State<Table_Calender> {
   }
 }
 
-Widget TakenBoxPill() {
+Widget takenBoxPill() {
   return CalendarBoxes(
     child: const Icon(
       Icons.check,
@@ -73,17 +73,18 @@ Widget TakenBoxPill() {
   );
 }
 
-Widget NotTakenBoxPill() {
+Widget notTakenBoxPill() {
   return CalendarBoxes(
     child: const Icon(Icons.clear, size: 30, color: Colors.red),
   );
 }
 
-Widget UnknownBoxPill({required DateTime date}) {
+Widget unknownBoxPill({required DateTime date}) {
   return CalendarBoxes(
-    child: Text(
-      date.day.toString(),
-      style: const TextStyle(color: Colors.black87),
+    child: const Icon(
+      Icons.schedule,
+      size: 30,
+      color: Colors.white,
     ),
   );
 }
