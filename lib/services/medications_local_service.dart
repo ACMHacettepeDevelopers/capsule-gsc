@@ -37,7 +37,7 @@ class MedicationsService {
           content: NotificationContent(
               id: medication.notificationId,  // UNIQUE ID GEREKIR MI?
               channelKey: 'basic_channel',
-              title: 'Hey buddy! Time to take your medication!',
+              title: "Hey,It's time to take your medication!",
               body: "${medication.name} needs to be taken now."),
           schedule: NotificationAndroidCrontab.daily(referenceDateTime: time,),
           

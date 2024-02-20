@@ -55,7 +55,7 @@ class _MedicationDetailsState extends State<MedicationDetails> {
               const SizedBox(
                 height: 10,
               ),
-              aboutMedicine(widget.medication!),
+               medicineDose(widget.medication!),
               const SizedBox(
                 height: 15,
               ),
@@ -63,7 +63,8 @@ class _MedicationDetailsState extends State<MedicationDetails> {
               const SizedBox(
                 height: 10,
               ),
-              medicineDose(widget.medication!),
+              aboutMedicine(widget.medication!),
+             
               const SizedBox(
                 height: 15,
               ),
@@ -116,7 +117,7 @@ Container aboutMedicine(Medication medication) {
       color: Colors.green[200],
       borderRadius: const BorderRadius.all(Radius.circular(20)),
     ),
-    height: 40,
+    height: 60,
     width:  "$name has to be taken at ${timesArray.join(", ")}"
             .length
             .toDouble() *
@@ -135,13 +136,12 @@ Container aboutMedicine(Medication medication) {
 Container medicineDose(Medication medication) {
   final name = medication.name;
   final times = jsonDecode(medication.times) as Map<String, dynamic>;
-  final timesArray = times.keys.toList();
   return Container(
     decoration: BoxDecoration(
       color: Colors.green[200],
       borderRadius: const BorderRadius.all(Radius.circular(20)),
     ),
-    height: 40,
+    height: 60,
     width: "$name has ${medication.dose} doses in a day. Don't forget to take them."
             .length
             .toDouble() *
