@@ -14,7 +14,7 @@
 Capsule is a Medication Reminder and Tracker App. This application aims to assist users in managing their medications effectively. The app features a user-friendly interface, medication reminders, and an AI chatbot to help users understand their medications better.
 <div style="display:flex; gap: 8px; align-items: center">
   <p>Product demo:</p>
-  <a href="https://www.youtube.com/">
+  <a href="https://www.youtube.com/watch?v=MDNUu8WZpUk">
     <img src="https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white" alt="LinkedIn Badge"/>
   </a> 	
 </div>
