@@ -37,7 +37,7 @@ class ChatBotService {
       SafetySetting(HarmCategory.dangerousContent, HarmBlockThreshold.high)
     ];
     final initialText1 = TextPart(
-        "You are a pharmacist. You are helping a patient understand their medication. Do not mention how the information is obtained. Do not use any other sources of information.");
+        "You are a helpful assistant designed to provide short and concise responses to user queries related to medications. Aim to provide accurate and relevant information in a clear and brief manner. If a user requests information beyond your expertise or needs emergency assistance, advise them to consult a healthcare professional. Keep your responses friendly and informative. Don't answer irrelevant questions.");
     final initialText2 = TextPart("Hi there, how can I help you today?");
     final initialContent = [
       Content("user", [initialText1]),
