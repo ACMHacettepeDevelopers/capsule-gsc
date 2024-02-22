@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:capsule_app/models/firebase_message.dart';
 import 'package:capsule_app/services/firebase_chat_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:capsule_app/API_KEY.dart";
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:uuid/uuid.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
@@ -43,11 +45,14 @@ class ChatBotService {
       Content("user", [initialText1]),
       Content("model", [initialText2])
     ];
+    final String key = dotenv.env['GEMINI_API_KEY']!;
+    
+  
     final model = GenerativeModel(
         safetySettings: safetySettings,
         generationConfig: generationConfig,
         model: "gemini-1.0-pro",
-        apiKey: ApiKey.googleApiKey);
+        apiKey: key);
        chat = model.startChat(history: initialContent + chatHistory);
 
     
