@@ -48,12 +48,6 @@ Follow these steps to get the app up and running on your local machine.
   cd capsule-gsc
   ```
 
-- Install Dependencies:
- 
-  ```bash
-  flutter pub get
-  ```
-
 - Get your API key from Google AI Studio:
 <div align="left">
   <img src="https://cdn.discordapp.com/attachments/1199359345268371527/1210355277048717373/Screen_Shot_2024-02-23_at_01.39.15_AM.png?ex=65ea4231&is=65d7cd31&hm=77857ebf03c1cb97b2076d56934d68ea6adf6784cd66e6bc7c01949ce6372ee7&" width=600px style="margin-bottom: 16px"/>
@@ -63,6 +57,12 @@ Follow these steps to get the app up and running on your local machine.
 <div align="left">
   <img src="https://cdn.discordapp.com/attachments/1199359345268371527/1210354290212995094/Screen_Shot_2024-02-23_at_01.33.12_AM.png?ex=65ea4146&is=65d7cc46&hm=07265782b9b152409c5c37f18917c337f80ad7707857f0d4266e4448575f0dec&" width=280px style="margin-bottom: 16px"/>
 </div>
+
+- Install Dependencies:
+ 
+  ```bash
+  flutter pub get
+  ```
 
 ### Usage
 
