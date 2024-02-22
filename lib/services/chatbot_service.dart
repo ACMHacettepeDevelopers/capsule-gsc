@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:capsule_app/models/firebase_message.dart';
 import 'package:capsule_app/services/firebase_chat_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import "package:capsule_app/API_KEY.dart";
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:uuid/uuid.dart';
