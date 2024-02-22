@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./logo.png" width=280px style="margin-bottom: 16px"/>
+  <img src="./lib/assets/logo.png" width=280px style="margin-bottom: 16px"/>
   <p><i>Smart Medication Management for a Healthier Tomorrow</i></p>
 </div>
 
