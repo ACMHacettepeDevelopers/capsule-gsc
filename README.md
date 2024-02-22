@@ -43,7 +43,7 @@ Follow these steps to get the app up and running on your local machine.
   ```bash
   git clone https://github.com/ACMHacettepeDevelopers/capsule-gsc
   ```
-
+ <img src="https://img.shields.io/badge/GEMINI-00217f?style=for-the-badge&logo=Google Bard&logoColor=fff" alt="GEMINI" />
 - Navigate to the project directory:
  
   ```bash
